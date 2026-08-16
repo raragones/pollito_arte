@@ -21,13 +21,14 @@ export async function loginWithGoogle(c: Context, credential: string) {
     throw new AppError(403, "FORBIDDEN", "Esta cuenta no está autorizada.");
   const token = randomBytes(32).toString("hex");
   const expiresAt = new Date(Date.now() + 7 * 864e5);
+  const isHttps = new URL(c.req.url).protocol === "https:";
   await db
     .insert(adminSessions)
     .values({ email, tokenHash: hash(token), expiresAt });
   setCookie(c, COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Lax",
+    secure: isHttps,
+    sameSite: isHttps ? "None" : "Lax",
     path: "/",
     expires: expiresAt,
   });
