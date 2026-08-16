@@ -1,6 +1,6 @@
 import type { DrawingInput } from "@natyarte/shared";
 import { eq } from "drizzle-orm";
-import { db } from "../../infrastructure/database/client.js";
+import { getDb } from "../../infrastructure/database/client.js";
 import {
   drawingImages,
   drawings,
@@ -50,6 +50,7 @@ export const drawingService = {
     image: ValidatedImage,
     adminEmail: string,
   ) => {
+    const db = getDb();
     const { start, end } = todayRange();
     if (
       (await drawingRepository.countCreatedBy(adminEmail, start, end)) >=
@@ -79,6 +80,7 @@ export const drawingService = {
     return { id, imageUrl: `/api/admin/drawings/${id}/image` };
   },
   update: async (id: string, input: DrawingInput, image?: ValidatedImage) => {
+    const db = getDb();
     const [existing] = await db
       .select({ id: drawings.id })
       .from(drawings)
@@ -112,6 +114,7 @@ export const drawingService = {
     return { id, imageUrl: `/api/admin/drawings/${id}/image` };
   },
   delete: async (id: string) => {
+    const db = getDb();
     const [row] = await db
       .delete(drawings)
       .where(eq(drawings.id, id))

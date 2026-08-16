@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { asc, eq, sql } from "drizzle-orm";
 import { collectionInputSchema } from "@natyarte/shared";
-import { db } from "../../infrastructure/database/client.js";
+import { getDb } from "../../infrastructure/database/client.js";
 import { collections, drawings } from "../../infrastructure/database/schema.js";
 import { AppError } from "../../lib/errors.js";
 const projection = {
@@ -19,7 +19,7 @@ const projection = {
 };
 export const publicCollections = new Hono().get("/", async (c) =>
   c.json(
-    await db
+    await getDb()
       .select(projection)
       .from(collections)
       .leftJoin(
@@ -34,7 +34,7 @@ export const publicCollections = new Hono().get("/", async (c) =>
 export const adminCollections = new Hono()
   .get("/", async (c) =>
     c.json(
-      await db
+      await getDb()
         .select(projection)
         .from(collections)
         .leftJoin(drawings, eq(drawings.collectionId, collections.id))
@@ -43,14 +43,14 @@ export const adminCollections = new Hono()
     ),
   )
   .post("/", zValidator("json", collectionInputSchema), async (c) => {
-    const [v] = await db
+    const [v] = await getDb()
       .insert(collections)
       .values(c.req.valid("json"))
       .returning();
     return c.json(v, 201);
   })
   .put("/:id", zValidator("json", collectionInputSchema), async (c) => {
-    const [v] = await db
+    const [v] = await getDb()
       .update(collections)
       .set({ ...c.req.valid("json"), updatedAt: new Date() })
       .where(eq(collections.id, c.req.param("id")))
@@ -59,7 +59,7 @@ export const adminCollections = new Hono()
     return c.json(v);
   })
   .delete("/:id", async (c) => {
-    const result = await db
+    const result = await getDb()
       .select({ count: sql<number>`count(*)::int` })
       .from(drawings)
       .where(eq(drawings.collectionId, c.req.param("id")));
@@ -69,7 +69,7 @@ export const adminCollections = new Hono()
         "COLLECTION_NOT_EMPTY",
         "Desactiva la colección o reasigna sus dibujos antes de eliminarla.",
       );
-    const [v] = await db
+    const [v] = await getDb()
       .delete(collections)
       .where(eq(collections.id, c.req.param("id")))
       .returning();

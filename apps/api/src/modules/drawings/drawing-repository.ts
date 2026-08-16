@@ -1,6 +1,6 @@
 import { and, desc, eq, gte, lt, sql } from "drizzle-orm";
 import type { DrawingInput } from "@natyarte/shared";
-import { db } from "../../infrastructure/database/client.js";
+import { getDb } from "../../infrastructure/database/client.js";
 import {
   collections,
   drawingImages,
@@ -29,7 +29,7 @@ export type DrawingRecord = typeof drawings.$inferSelect;
 export type ImageRecord = typeof drawingImages.$inferSelect;
 export const drawingRepository = {
   listPublic: async (collection?: string) =>
-    db
+    getDb()
       .select(drawingProjection)
       .from(drawings)
       .leftJoin(collections, eq(drawings.collectionId, collections.id))
@@ -40,13 +40,13 @@ export const drawingRepository = {
       )
       .orderBy(desc(drawings.drawingDate), desc(drawings.createdAt)),
   listAdmin: async () =>
-    db
+    getDb()
       .select(drawingProjection)
       .from(drawings)
       .leftJoin(collections, eq(drawings.collectionId, collections.id))
       .orderBy(desc(drawings.createdAt)),
   findPublicBySlug: async (slug: string) => {
-    const [row] = await db
+    const [row] = await getDb()
       .select(drawingProjection)
       .from(drawings)
       .leftJoin(collections, eq(drawings.collectionId, collections.id))
@@ -55,7 +55,7 @@ export const drawingRepository = {
     return row;
   },
   findFeatured: async () => {
-    const [row] = await db
+    const [row] = await getDb()
       .select(drawingProjection)
       .from(drawings)
       .leftJoin(collections, eq(drawings.collectionId, collections.id))
@@ -65,7 +65,7 @@ export const drawingRepository = {
     return row;
   },
   findImage: async (id: string, publishedOnly = true) => {
-    const [row] = await db
+    const [row] = await getDb()
       .select({ data: drawingImages.data, mimeType: drawingImages.mimeType })
       .from(drawingImages)
       .innerJoin(drawings, eq(drawingImages.drawingId, drawings.id))
@@ -78,7 +78,7 @@ export const drawingRepository = {
     return row;
   },
   countCreatedBy: async (email: string, start: Date, end: Date) => {
-    const [row] = await db
+    const [row] = await getDb()
       .select({ count: sql<number>`count(*)::int` })
       .from(drawings)
       .where(

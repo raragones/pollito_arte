@@ -1,4 +1,4 @@
-import { db } from "./client.js";
+import { getDb } from "./client.js";
 import { collections } from "./schema.js";
 const names = [
   "Dragon Ball",
@@ -17,6 +17,7 @@ const slug = (value: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+const db = getDb();
 await db
   .insert(collections)
   .values(

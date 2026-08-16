@@ -9,14 +9,16 @@ const schema = z.object({
   ADMIN_EMAILS: z.string().min(1),
   SESSION_SECRET: z.string().min(32),
 });
-const parsed = schema.safeParse(process.env);
-if (!parsed.success)
-  throw new Error(`Invalid environment: ${parsed.error.message}`);
-export const env = {
-  ...parsed.data,
-  adminEmails: new Set(
-    parsed.data.ADMIN_EMAILS.split(",")
-      .map((v) => v.trim().toLowerCase())
-      .filter(Boolean),
-  ),
-};
+export function getEnv() {
+  const parsed = schema.safeParse(process.env);
+  if (!parsed.success)
+    throw new Error(`Invalid environment: ${parsed.error.message}`);
+  return {
+    ...parsed.data,
+    adminEmails: new Set(
+      parsed.data.ADMIN_EMAILS.split(",")
+        .map((value) => value.trim().toLowerCase())
+        .filter(Boolean),
+    ),
+  };
+}

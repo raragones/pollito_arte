@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
-import { env } from "./config/env.js";
+import { getEnv } from "./config/env.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { loginWithGoogle, logout, requireAdmin } from "./modules/auth/auth.js";
 import {
@@ -19,7 +19,7 @@ app.use(
 app.use(
   "/api/*",
   cors({
-    origin: env.WEB_ORIGIN,
+    origin: (origin) => (origin === getEnv().WEB_ORIGIN ? origin : null),
     credentials: true,
     allowHeaders: ["Content-Type"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
