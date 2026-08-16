@@ -9,4 +9,7 @@ coverage
 .vite
 .turbo
 .cache
+.wrangler
+.dev.vars*
+!.dev.vars.example
 .DS_Store
