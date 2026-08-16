@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { getDb } from "./client.js";
 import { collections } from "./schema.js";
 const names = [
