@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1786915528985,
+      "tag": "0000_colossal_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786916855151,
+      "tag": "0001_store_images_in_postgres",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "natyarte-pro",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm --parallel --filter './apps/*' dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint apps packages",
+    "db:generate": "pnpm --filter @natyarte/api db:generate",
+    "db:migrate": "pnpm --filter @natyarte/api db:migrate",
+    "db:seed": "pnpm --filter @natyarte/api db:seed"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "typescript": "^6.0.0",
+    "typescript-eslint": "^8.67.0"
+  }
+}
