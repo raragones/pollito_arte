@@ -17,6 +17,11 @@ export function useGestureConsent() {
       if (!navigator.mediaDevices?.getUserMedia) {
         throw new Error("Camera unavailable");
       }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: "user" },
+      });
+      stream.getTracks().forEach((track) => track.stop());
       gestureStorage.setConsent("accepted");
       return true;
     } catch {
