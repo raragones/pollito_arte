@@ -1,7 +1,11 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
-import { getEnv } from "./config/env.js";
+import {
+  getEnv,
+  loadWorkerBindings,
+  type WorkerBindings,
+} from "./config/env.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { loginWithGoogle, logout, requireAdmin } from "./modules/auth/auth.js";
 import {
@@ -9,7 +13,11 @@ import {
   adminCollections,
 } from "./modules/collections/routes.js";
 import { publicDrawings, adminDrawings } from "./modules/drawings/routes.js";
-export const app = new Hono();
+export const app = new Hono<{ Bindings: WorkerBindings }>();
+app.use("*", async (c, next) => {
+  loadWorkerBindings(c.env);
+  await next();
+});
 app.use(
   "*",
   secureHeaders({

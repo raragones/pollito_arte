@@ -8,6 +8,23 @@ const schema = z.object({
   ADMIN_EMAILS: z.string().min(1),
   SESSION_SECRET: z.string().min(32),
 });
+
+export interface WorkerBindings {
+  DATABASE_URL: string;
+  WEB_ORIGIN: string;
+  API_PORT?: string;
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET?: string;
+  ADMIN_EMAILS: string;
+  SESSION_SECRET: string;
+}
+
+export function loadWorkerBindings(bindings: WorkerBindings) {
+  for (const [key, value] of Object.entries(bindings)) {
+    if (typeof value === "string") process.env[key] = value;
+  }
+}
+
 export function getEnv() {
   const parsed = schema.safeParse(process.env);
   if (!parsed.success)
