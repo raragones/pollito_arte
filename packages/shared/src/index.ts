@@ -41,8 +41,17 @@ export const drawingInputSchema = z.object({
   drawingDate: z.string().date().optional().nullable(),
 });
 
+export const aboutMeInputSchema = z.object({
+  shortTitle: z.string().trim().min(2).max(120),
+  shortDescription: z.string().trim().min(2).max(500),
+  fullTitle: z.string().trim().min(2).max(160),
+  subtitle: z.string().trim().max(240).optional().nullable(),
+  content: z.string().trim().min(2).max(8000),
+});
+
 export type DrawingInput = z.infer<typeof drawingInputSchema>;
 export type CollectionInput = z.infer<typeof collectionInputSchema>;
+export type AboutMeInput = z.infer<typeof aboutMeInputSchema>;
 export interface Collection extends CollectionInput {
   id: string;
   createdAt: string;
@@ -55,7 +64,12 @@ export interface Drawing extends DrawingInput {
   hasImage: boolean;
   createdAt: string;
   updatedAt: string;
+  likesCount: number;
   collection?: Pick<Collection, "id" | "name" | "slug"> | null;
+}
+export interface AboutMe extends AboutMeInput {
+  imageUrl: string | null;
+  updatedAt: string;
 }
 export interface ApiError {
   error: { code: string; message: string; details?: unknown };

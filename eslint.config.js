@@ -1,7 +1,14 @@
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist/**", "**/node_modules/**", "apps/api/drizzle/**"] },
+  {
+    ignores: [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/.wrangler/**",
+      "apps/api/drizzle/**",
+    ],
+  },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,tsx}"],

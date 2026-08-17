@@ -4,12 +4,15 @@ import { useAsync } from "../hooks/useAsync";
 import { DrawingCard } from "../components/DrawingCard";
 import { CollectionCard } from "../components/CollectionCard";
 import { EmptyState, ErrorState, LoadingState } from "../components/States";
+import { GestureConsent } from "../features/gestures/GestureConsent";
 export function HomePage() {
   const drawings = useAsync(api.drawings, []);
   const collections = useAsync(api.collections, []);
   const featured = useAsync(api.featured, []);
+  const about = useAsync(api.aboutMe, []);
   return (
     <>
+      <GestureConsent />
       <section className="hero">
         <div className="hero-copy">
           <span className="eyebrow">Hola, soy Naty 🎨</span>
@@ -89,15 +92,30 @@ export function HomePage() {
       <section className="section feature-panel">
         <div className="about-mini">
           <span>Sobre mí</span>
-          <div className="avatar">N</div>
-          <h3>¡Hola! Soy Naty 💜</h3>
-          <p>
-            Dibujar es mi forma favorita de expresar mis ideas y crear mundos
-            llenos de color.
-          </p>
-          <Link className="text-button" to="/sobre-mi">
-            Conoce más de mí →
-          </Link>
+          {about.loading ? (
+            <LoadingState />
+          ) : about.error || !about.data ? (
+            <ErrorState message={about.error} />
+          ) : (
+            <>
+              {about.data.imageUrl ? (
+                <img
+                  className="avatar"
+                  src={about.data.imageUrl}
+                  alt="Retrato de Naty"
+                />
+              ) : (
+                <div className="avatar" aria-hidden="true">
+                  N
+                </div>
+              )}
+              <h3>{about.data.shortTitle}</h3>
+              <p>{about.data.shortDescription}</p>
+              <Link className="text-button" to="/sobre-mi">
+                Conoce más de mí →
+              </Link>
+            </>
+          )}
         </div>
         <div className="featured">
           <span>Dibujo destacado ✨</span>

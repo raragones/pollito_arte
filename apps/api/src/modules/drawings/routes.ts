@@ -40,6 +40,12 @@ export const publicDrawings = new Hono()
     c.json(await drawingService.listPublic(c.req.query("collection"))),
   )
   .get("/featured", async (c) => c.json(await drawingService.getFeatured()))
+  .post("/:id/like", async (c) =>
+    c.json(await drawingService.like(c.req.param("id"))),
+  )
+  .get("/:id/recommendations", async (c) =>
+    c.json(await drawingService.recommendations(c.req.param("id"))),
+  )
   .get("/:id/image", async (c) =>
     imageResponse(c, await drawingService.getImage(c.req.param("id"))),
   )

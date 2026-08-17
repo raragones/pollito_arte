@@ -1,5 +1,7 @@
 import type {
   ApiError,
+  AboutMe,
+  AboutMeInput,
   Collection,
   CollectionInput,
   Drawing,
@@ -32,6 +34,13 @@ const absoluteImage = (item: Drawing): Drawing => ({
     ? item.imageUrl
     : `${base}${item.imageUrl}`,
 });
+const absoluteAboutImage = (item: AboutMe): AboutMe => ({
+  ...item,
+  imageUrl:
+    item.imageUrl && !item.imageUrl.startsWith("http")
+      ? `${base}${item.imageUrl}?v=${encodeURIComponent(item.updatedAt)}`
+      : item.imageUrl,
+});
 const one = (path: string) => request<Drawing>(path).then(absoluteImage);
 const many = (path: string) =>
   request<Drawing[]>(path).then((items) => items.map(absoluteImage));
@@ -48,6 +57,12 @@ export const api = {
     ),
   drawing: (slug: string) => one(`/api/drawings/${slug}`),
   featured: () => one("/api/drawings/featured"),
+  likeDrawing: (id: string) =>
+    request<{ likesCount: number }>(`/api/drawings/${id}/like`, {
+      method: "POST",
+    }),
+  recommendations: (id: string) => many(`/api/drawings/${id}/recommendations`),
+  aboutMe: () => request<AboutMe>("/api/about-me").then(absoluteAboutImage),
   collections: () => request<Collection[]>("/api/collections"),
   me: () => request<{ authenticated: boolean }>("/api/auth/me"),
   login: (credential: string) =>
@@ -57,6 +72,20 @@ export const api = {
     }),
   logout: () => request<void>("/api/auth/logout", { method: "POST" }),
   adminDrawings: () => many("/api/admin/drawings"),
+  adminAboutMe: () =>
+    request<AboutMe>("/api/admin/about-me").then(absoluteAboutImage),
+  saveAboutMe: (input: AboutMeInput) =>
+    request<AboutMe>("/api/admin/about-me", {
+      method: "PUT",
+      body: JSON.stringify(input),
+    }).then(absoluteAboutImage),
+  saveAboutMeImage: (image: File) => {
+    const body = new FormData();
+    body.append("image", image);
+    return request<void>("/api/admin/about-me/image", { method: "PUT", body });
+  },
+  deleteAboutMeImage: () =>
+    request<void>("/api/admin/about-me/image", { method: "DELETE" }),
   saveDrawing: (input: DrawingInput, image: File | undefined, id?: string) =>
     request<{ id: string; imageUrl: string }>(
       `/api/admin/drawings${id ? `/${id}` : ""}`,

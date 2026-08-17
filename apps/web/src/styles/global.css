@@ -359,6 +359,7 @@ p {
   float: left;
   margin: 13px 18px 8px 0;
   border: 5px solid white;
+  object-fit: cover;
 }
 .avatar.big {
   float: none;
@@ -535,6 +536,218 @@ p {
   padding: 45px;
   border-radius: 28px;
   line-height: 1.7;
+}
+.about-card > div:last-child {
+  min-width: 0;
+}
+.about-subtitle {
+  color: #8057bc;
+  font-weight: 600;
+}
+.about-content {
+  white-space: pre-line;
+}
+.privacy-warning {
+  padding: 16px 18px;
+  margin-bottom: 22px;
+  border: 1px solid #f2ce79;
+  border-radius: 12px;
+  background: #fff8dc;
+  color: #695323;
+  line-height: 1.5;
+}
+.about-admin-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.form-success {
+  color: #177c65;
+  font-size: 13px;
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #2b213e99;
+  backdrop-filter: blur(5px);
+}
+.consent-modal,
+.recommendations-modal {
+  width: min(540px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: 34px;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 24px 70px #21162f55;
+  text-align: center;
+  outline: none;
+  position: relative;
+}
+.recommendations-modal {
+  width: min(920px, 100%);
+}
+.modal-icon {
+  display: block;
+  font-size: 45px;
+  margin-bottom: 8px;
+}
+.consent-modal h2,
+.recommendations-modal h2 {
+  font: 34px "Patrick Hand";
+  color: #865db7;
+  margin-bottom: 12px;
+}
+.privacy-note {
+  margin: 20px 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: #eaf8f4;
+  color: #26766d;
+  line-height: 1.5;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+.secondary-button,
+.gesture-activate-button {
+  border: 1px solid #d9cde3;
+  border-radius: 12px;
+  padding: 11px 18px;
+  background: white;
+  color: #6847a1;
+  cursor: pointer;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: #f5eef9;
+  color: #6847a1;
+  font-size: 24px;
+  cursor: pointer;
+}
+.gesture-reenable {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9;
+  border: 1px solid #e3d7e9;
+  border-radius: 99px;
+  padding: 9px 14px;
+  background: #ffffffee;
+  color: #76538f;
+  box-shadow: 0 5px 18px #66526b22;
+  cursor: pointer;
+}
+.drawing-reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+}
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ffc4d5;
+  border-radius: 99px;
+  padding: 10px 15px;
+  background: white;
+  color: var(--deep);
+  cursor: pointer;
+}
+.like-button span {
+  min-width: 26px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: #fff0f4;
+}
+.like-button.liked {
+  background: #ffe5ed;
+  cursor: default;
+}
+.gesture-camera {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin: 18px 0;
+  padding: 12px;
+  border: 1px solid #dfd0ea;
+  border-radius: 16px;
+  background: #faf6fd;
+}
+.gesture-camera video {
+  width: 74px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  transform: scaleX(-1);
+  background: #31283a;
+}
+.gesture-status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.gesture-status > span {
+  font-size: 28px;
+}
+.gesture-status b,
+.gesture-status small {
+  display: block;
+}
+.gesture-retry {
+  margin-top: 7px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6847a1;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.gesture-status b {
+  font-size: 13px;
+}
+.gesture-status small {
+  margin-top: 4px;
+  color: #7c7181;
+  font-size: 11px;
+}
+.gesture-progress {
+  height: 7px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #eadff0;
+}
+.gesture-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+  transition: width 80ms linear;
+}
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+  text-align: left;
 }
 footer {
   background: #ffe7ee;
@@ -955,6 +1168,23 @@ textarea {
   .about-card {
     padding: 25px;
     display: block;
+  }
+  .consent-modal,
+  .recommendations-modal {
+    padding: 25px 18px;
+  }
+  .modal-actions {
+    flex-direction: column;
+  }
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+  .gesture-camera {
+    grid-template-columns: 1fr;
+  }
+  .gesture-camera video {
+    width: 100%;
+    height: 90px;
   }
   .avatar.big {
     margin: 0 auto 20px;

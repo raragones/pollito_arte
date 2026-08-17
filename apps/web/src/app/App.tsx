@@ -13,6 +13,7 @@ import { DashboardPage } from "../pages/admin/DashboardPage";
 import { DrawingsAdminPage } from "../pages/admin/DrawingsAdminPage";
 import { DrawingFormPage } from "../pages/admin/DrawingFormPage";
 import { CollectionsAdminPage } from "../pages/admin/CollectionsAdminPage";
+import { AboutAdminPage } from "../pages/admin/AboutAdminPage";
 export function App() {
   return (
     <BrowserRouter>
@@ -35,6 +36,7 @@ export function App() {
             <Route path="dibujos/nuevo" element={<DrawingFormPage />} />
             <Route path="dibujos/:id" element={<DrawingFormPage />} />
             <Route path="colecciones" element={<CollectionsAdminPage />} />
+            <Route path="sobre-mi" element={<AboutAdminPage />} />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

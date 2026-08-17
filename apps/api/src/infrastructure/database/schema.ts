@@ -49,11 +49,37 @@ export const drawings = pgTable("drawings", {
   favorite: boolean("favorite").default(false).notNull(),
   featured: boolean("featured").default(false).notNull(),
   published: boolean("published").default(false).notNull(),
+  likesCount: integer("likes_count").default(0).notNull(),
   drawingDate: date("drawing_date"),
   createdBy: varchar("created_by", { length: 255 }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+export const aboutMe = pgTable("about_me", {
+  id: integer("id").primaryKey().default(1),
+  shortTitle: varchar("short_title", { length: 120 }).notNull(),
+  shortDescription: varchar("short_description", { length: 500 }).notNull(),
+  fullTitle: varchar("full_title", { length: 160 }).notNull(),
+  subtitle: varchar("subtitle", { length: 240 }),
+  content: text("content").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+export const aboutMeImage = pgTable("about_me_image", {
+  aboutMeId: integer("about_me_id")
+    .primaryKey()
+    .default(1)
+    .references(() => aboutMe.id, { onDelete: "cascade" }),
+  data: bytea("data").notNull(),
+  mimeType: varchar("mime_type", { length: 40 }).notNull(),
+  size: integer("size").notNull(),
+  width: integer("width"),
+  height: integer("height"),
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

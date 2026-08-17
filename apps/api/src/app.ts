@@ -13,6 +13,7 @@ import {
   adminCollections,
 } from "./modules/collections/routes.js";
 import { publicDrawings, adminDrawings } from "./modules/drawings/routes.js";
+import { publicAboutMe, adminAboutMe } from "./modules/about-me/routes.js";
 export const app = new Hono<{ Bindings: WorkerBindings }>();
 app.use("*", async (c, next) => {
   loadWorkerBindings(c.env);
@@ -37,6 +38,7 @@ app.onError(errorHandler);
 app.get("/health", (c) => c.json({ status: "ok" }));
 app.route("/api/collections", publicCollections);
 app.route("/api/drawings", publicDrawings);
+app.route("/api/about-me", publicAboutMe);
 app.post("/api/auth/google", async (c) => {
   const { credential } = await c.req.json<{ credential?: string }>();
   if (!credential)
@@ -59,3 +61,4 @@ app.get("/api/auth/me", requireAdmin, (c) => c.json({ authenticated: true }));
 app.use("/api/admin/*", requireAdmin);
 app.route("/api/admin/collections", adminCollections);
 app.route("/api/admin/drawings", adminDrawings);
+app.route("/api/admin/about-me", adminAboutMe);

@@ -8,12 +8,15 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint apps packages",
+    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,css,json}\" \"*.{json,js,md}\"",
+    "format:check": "prettier --check \"{apps,packages}/**/*.{ts,tsx,css,json}\" \"*.{json,js,md}\"",
     "db:generate": "pnpm --filter @natyarte/api db:generate",
     "db:migrate": "pnpm --filter @natyarte/api db:migrate",
     "db:seed": "pnpm --filter @natyarte/api db:seed"
   },
   "devDependencies": {
     "eslint": "^9.39.2",
+    "prettier": "^3.6.2",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.67.0"
   }

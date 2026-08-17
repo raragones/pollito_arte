@@ -15,6 +15,13 @@
       "when": 1786916855151,
       "tag": "0001_store_images_in_postgres",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786926721141,
+      "tag": "0002_steep_joshua_kane",
+      "breakpoints": true
     }
   ]
 }

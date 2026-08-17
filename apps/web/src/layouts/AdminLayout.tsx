@@ -14,6 +14,7 @@ export function AdminLayout() {
           </NavLink>
           <NavLink to="/admin/dibujos">▧ Dibujos</NavLink>
           <NavLink to="/admin/colecciones">◉ Colecciones</NavLink>
+          <NavLink to="/admin/sobre-mi">♡ Sobre mí</NavLink>
         </nav>
         <button
           onClick={async () => {

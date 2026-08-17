@@ -19,6 +19,7 @@ export const drawingProjection = {
   favorite: drawings.favorite,
   featured: drawings.featured,
   published: drawings.published,
+  likesCount: drawings.likesCount,
   drawingDate: drawings.drawingDate,
   createdAt: drawings.createdAt,
   updatedAt: drawings.updatedAt,
@@ -89,6 +90,14 @@ export const drawingRepository = {
         ),
       );
     return row?.count ?? 0;
+  },
+  incrementLike: async (id: string) => {
+    const [row] = await getDb()
+      .update(drawings)
+      .set({ likesCount: sql`${drawings.likesCount} + 1` })
+      .where(and(eq(drawings.id, id), eq(drawings.published, true)))
+      .returning({ likesCount: drawings.likesCount });
+    return row;
   },
   toValues: (input: DrawingInput) => input,
 };

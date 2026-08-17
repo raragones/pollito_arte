@@ -1,1 +1,35 @@
-{"name":"@natyarte/api","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"wrangler dev --port 8787","build":"tsc --noEmit","start":"wrangler dev --port 8787","deploy":"wrangler deploy","typecheck":"tsc --noEmit","db:generate":"drizzle-kit generate","db:migrate":"tsx src/infrastructure/database/migrate.ts","db:seed":"tsx src/infrastructure/database/seed.ts"},"dependencies":{"@hono/zod-validator":"^0.7.6","@natyarte/shared":"workspace:*","@neondatabase/serverless":"^1.1.0","dotenv":"^17.2.2","drizzle-orm":"^0.45.2","google-auth-library":"^11.0.2","hono":"^4.13.2","image-size":"^2.0.2","jose":"^6.2.9","zod":"^4.4.3"},"devDependencies":{"@types/node":"^24.3.0","drizzle-kit":"^0.31.10","tsx":"^4.20.5","typescript":"^6.0.3","wrangler":"^4.123.0"}}
+{
+  "name": "@natyarte/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "build": "tsc --noEmit",
+    "start": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/infrastructure/database/migrate.ts",
+    "db:seed": "tsx src/infrastructure/database/seed.ts"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.6",
+    "@natyarte/shared": "workspace:*",
+    "@neondatabase/serverless": "^1.1.0",
+    "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.45.2",
+    "google-auth-library": "^11.0.2",
+    "hono": "^4.13.2",
+    "image-size": "^2.0.2",
+    "jose": "^6.2.9",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.20.5",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.123.0"
+  }
+}

@@ -39,6 +39,31 @@ export const drawingService = {
       throw new AppError(404, "NOT_FOUND", "Aún no hay un dibujo destacado.");
     return dto(row);
   },
+  like: async (id: string) => {
+    const row = await drawingRepository.incrementLike(id);
+    if (!row) throw new AppError(404, "NOT_FOUND", "Dibujo no encontrado.");
+    return row;
+  },
+  recommendations: async (id: string) => {
+    const rows = await drawingRepository.listPublic();
+    const current = rows.find((row) => row.id === id);
+    if (!current) throw new AppError(404, "NOT_FOUND", "Dibujo no encontrado.");
+    return rows
+      .filter((row) => row.id !== id)
+      .sort((a, b) => {
+        const aSame =
+          current.collectionId && a.collectionId === current.collectionId
+            ? 1
+            : 0;
+        const bSame =
+          current.collectionId && b.collectionId === current.collectionId
+            ? 1
+            : 0;
+        return bSame - aSame;
+      })
+      .slice(0, 3)
+      .map((row) => dto(row));
+  },
   getImage: async (id: string, publishedOnly = true) => {
     const image = await drawingRepository.findImage(id, publishedOnly);
     if (!image)
